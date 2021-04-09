@@ -1,0 +1,21 @@
+{
+  "name": "extract-sptf-playlist",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint **.js && jest",
+    "start": "node example.js"
+  },
+  "author": "haidang666",
+  "license": "GNUv3",
+  "dependencies": {
+    "puppeteer": "^8.0.0",
+    "spotify-uri": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "eslint-plugin-node": "^11.1.0",
+    "jest": "^26.6.3"
+  }
+}
