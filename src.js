@@ -22,12 +22,7 @@ async function getData(url, filePath) {
     headless: true
   });
   const page = await browser.newPage();
-  await page.setViewport({
-    width: 1200,
-    height: 800
-  });
-  await page.goto(url);
-  await page.waitForTimeout(2000);
+  await page.goto(url, {waitUntil: 'networkidle0'});
 
   const tracklistContainer = await page.$('div[data-testid="playlist-tracklist"]');
   const numberOfTrack = parseInt(await page.evaluate(el => el.getAttribute('aria-rowcount'), tracklistContainer));
