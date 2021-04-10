@@ -3,7 +3,6 @@ const puppeteer = require('puppeteer');
 const spotifyUri = require('spotify-uri');
 
 async function getPlaylist(uri, filePath = null) {
-
   let parsedUri;
 
   try {
@@ -11,23 +10,27 @@ async function getPlaylist(uri, filePath = null) {
   } catch (err) {
     return Promise.reject(new Error('Invalid spotify uri'));
   }
-  
+
   const url = spotifyUri.formatOpenURL(parsedUri);
-  
+
   return getData(url, filePath);
 }
 
 async function getData(url, filePath) {
   const browser = await puppeteer.launch({
-    headless: true
+    headless: true,
   });
   const page = await browser.newPage();
-  await page.goto(url, {waitUntil: 'networkidle0'});
+  await page.goto(url, { waitUntil: 'networkidle0' });
 
   const tracklistContainer = await page.$('div[data-testid="playlist-tracklist"]');
-  const numberOfTrack = parseInt(await page.evaluate(el => el.getAttribute('aria-rowcount'), tracklistContainer));
+  const numberOfTrack = parseInt(
+    await page.evaluate((el) => el.getAttribute('aria-rowcount'), tracklistContainer)
+  );
 
-  const scrollBar = await page.$('div.os-scrollbar:nth-child(4) > div:nth-child(1) > div:nth-child(1)');
+  const scrollBar = await page.$(
+    'div.os-scrollbar:nth-child(4) > div:nth-child(1) > div:nth-child(1)'
+  );
   const scrollBarBoundingBox = await scrollBar.boundingBox();
   const scrollHeight = scrollBarBoundingBox.height;
 
@@ -78,7 +81,7 @@ async function getData(url, filePath) {
   await browser.close();
 
   if (filePath) {
-    fs.writeFile(filePath, JSON.stringify(extractedTracks), err => {
+    fs.writeFile(filePath, JSON.stringify(extractedTracks), (err) => {
       if (err) {
         Promise.reject(err);
       }

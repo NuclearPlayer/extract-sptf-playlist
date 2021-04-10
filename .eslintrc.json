@@ -1,7 +1,8 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:node/recommended"
+    "plugin:node/recommended",
+    "plugin:prettier/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -23,39 +24,36 @@
       "error",
       "single"
     ],
-    "semi": [
-      "error",
-      "always"
-    ],
 
-    "no-undef": 0,
+    "no-undef": "off",
 
     // Best practice
-    "eqeqeq": 2,
-    "curly": 2,
-    "dot-location": [2, "property"],
-    "dot-notation": 2,
-    "no-alert": 2,
-    "object-shorthand": [2, "always"],
+    "eqeqeq": "warn",
+    "curly": "error",
+    "dot-location": ["error", "property"],
+    "dot-notation": "error",
+    "no-alert": "error",
+    "object-shorthand": ["error", "always"],
     "no-console": ["error", { "allow": ["warn", "error"] }],
 
     // Style
-    "array-bracket-spacing": 2,
-    "brace-style": 2,
-    "comma-dangle": 2,
-    "comma-spacing": 2,
-    "comma-style": 2,
-    "eol-last": 2,
-    "key-spacing": 2,
-    "keyword-spacing": 2,
-    "no-lonely-if": 2,
-    "no-multiple-empty-lines": 2,
-    "no-tabs": 2,
-    "semi-style": [2, "last"],
-    "spaced-comment": [2, "always"],
+    "array-bracket-spacing": "error",
+    "object-curly-spacing": "off",
+    "brace-style": "error",
+    "comma-dangle": ["error", "only-multiline"],
+    "comma-spacing": "error",
+    "comma-style": "error",
+    "eol-last": "error",
+    "key-spacing": "error",
+    "keyword-spacing": "error",
+    "no-lonely-if": "error",
+    "no-multiple-empty-lines": "error",
+    "no-tabs": "error",
+    "semi-style": ["error", "last"],
+    "spaced-comment": ["error", "always"],
 
     // ES 6
-    "arrow-spacing": 2,
-    "no-var": 2
+    "arrow-spacing": "error",
+    "no-var": "error"
   }
 }
