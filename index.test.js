@@ -1,6 +1,9 @@
 const getPlaylist = require('./index');
 
+// 400 songs
 // const url = 'https://open.spotify.com/playlist/5VJcwlSzgFtpClXb8xtXs6?si=ij_bQj2zR0GxCufs6lv_Gw';
+
+// 4 songs
 const url =
   'https://open.spotify.com/playlist/3TtYojG66KzrYHR58t5kjZ?si=W1mw5t4zQHKFkaUofbw_ig&nd=1';
 
@@ -8,10 +11,12 @@ jest.setTimeout(3600000);
 
 describe('get playlist', () => {
   test('should have data', async (done) => {
-    const data = await getPlaylist(url);
-    expect(data.length).toBeGreaterThan(0);
+    const playlist = await getPlaylist(url);
+    expect(playlist.name).toEqual(expect.any(String));
+    expect(playlist.numberOfTrack).toEqual(expect.any(Number));
+    expect(playlist.tracks.length).toBeGreaterThan(0);
 
-    expect(data[0]).toEqual(
+    expect(playlist.tracks[0]).toEqual(
       expect.objectContaining({
         thumbnail: expect.any(String),
         artist: expect.any(String),
