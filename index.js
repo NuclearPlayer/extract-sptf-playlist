@@ -1,3 +1,4 @@
-const getPlaylist = require('./src');
+const getSpotifyPlaylist = require('./spotify');
+const getYoutubePlaylist = require('./youtube');
 
-module.exports = getPlaylist;
+module.exports = { getSpotifyPlaylist, getYoutubePlaylist };
