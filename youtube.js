@@ -73,7 +73,7 @@ function returnPlaylist(playlist, filePath = null) {
 
 async function getData(url, filePath) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
   });
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'networkidle0' });
@@ -82,13 +82,13 @@ async function getData(url, filePath) {
   let loadedCount = 0;
   while (loadedCount < playlist.numberOfTrack) {
     await page.evaluate(() => {
-      window.scrollBy(0, window.innerHeight * 10);
+      window.scrollBy(0, window.innerHeight);
     });
-    await page.waitForTimeout(1500);
-    loadedCount = await page.evaluate(() => {
-      return document.querySelectorAll('ytd-playlist-video-renderer').length;
-    });
-    loadedCount += 1;
+    await page.waitForTimeout(500);
+    // loadedCount = await page.evaluate(() => {
+    //   return document.querySelectorAll('ytd-playlist-video-renderer').length;
+    // });
+    loadedCount += 6;
   }
   playlist.tracks = await getTracksFromDOM(page);
 
