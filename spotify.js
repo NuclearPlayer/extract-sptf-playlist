@@ -69,7 +69,7 @@ async function getTracksFromDOM(page, processedIndex) {
           .querySelector('div[aria-colindex="2"]')
           .innerText.split('\n');
         track.title = titleAndArtist[0];
-        track.artist = titleAndArtist[1];
+        track.artist = titleAndArtist[titleAndArtist.length - 1];
         track.album = nodeDetails.querySelector('div[aria-colindex="3"]').innerText;
         track.duration = nodeDetails.innerText.split('\n').pop();
 
