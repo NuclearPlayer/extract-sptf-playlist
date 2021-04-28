@@ -9,7 +9,7 @@ const url =
 
 jest.setTimeout(3600000);
 
-describe('get playlist', () => {
+describe('getSpotifyPlaylist', () => {
   test('should have data', async (done) => {
     const playlist = await getSpotifyPlaylist(url);
     expect(playlist.name).toEqual(expect.any(String));
