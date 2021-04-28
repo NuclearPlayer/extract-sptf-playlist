@@ -2,10 +2,17 @@ const fs = require('fs');
 const puppeteer = require('puppeteer');
 const youtubeUrl = require('./helpers/youtube-url');
 
-async function getPlaylist(uri, filePath = null) {
+async function getPlaylist(
+  uri,
+  options = {
+    filePath: null,
+    displayProcess: false,
+    headless: true,
+  }
+) {
   const playlistID = youtubeUrl.getPlaylistId(uri);
   if (playlistID) {
-    return getData(youtubeUrl.parsePlaylistUrl(playlistID), filePath);
+    return getData(youtubeUrl.parsePlaylistUrl(playlistID), options);
   }
 
   return Promise.reject(new Error('Invalid youtube uri'));
@@ -14,8 +21,9 @@ async function getPlaylist(uri, filePath = null) {
 async function getPlaylistGeneralInfo(page) {
   const info = await page.evaluate(() => {
     const name = document.querySelector('h1[id="title"]').innerText;
-    const numberOfTrack = document.querySelector('div[id="stats"]').childNodes[0].childNodes[0]
-      .innerText;
+    const numberOfTrack = parseInt(
+      document.querySelector('div[id="stats"]').childNodes[0].childNodes[0].innerText
+    );
     return {
       name,
       numberOfTrack,
@@ -71,9 +79,9 @@ function returnPlaylist(playlist, filePath = null) {
   }
 }
 
-async function getData(url, filePath) {
+async function getData(url, options) {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: options.headless === false ? false : true,
   });
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'networkidle0' });
@@ -89,12 +97,15 @@ async function getData(url, filePath) {
     //   return document.querySelectorAll('ytd-playlist-video-renderer').length;
     // });
     loadedCount += 6;
+    if (options.displayProcess) {
+      process.stdout.write('Process: ' + loadedCount + '\n');
+    }
   }
   playlist.tracks = await getTracksFromDOM(page);
 
   await browser.close();
 
-  return returnPlaylist(playlist, filePath);
+  return returnPlaylist(playlist, options.filePath);
 }
 
 module.exports = getPlaylist;

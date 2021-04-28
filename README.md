@@ -20,5 +20,5 @@ const playlist = await getSpotifyPlaylist(url);
 
 To save playlist to file, pass the `filePath` param.
 ```node
-getPlaylist(url, 'data.json');
+getSpotifyPlaylist(url, { filePath: 'data.json', displayProcess: true, headless: true });
 ```

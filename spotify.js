@@ -2,7 +2,14 @@ const fs = require('fs');
 const puppeteer = require('puppeteer');
 const spotifyUri = require('spotify-uri');
 
-async function getPlaylist(uri, filePath = null) {
+async function getPlaylist(
+  uri,
+  options = {
+    filePath: null,
+    displayProcess: false,
+    headless: true,
+  }
+) {
   let parsedUri;
 
   try {
@@ -13,7 +20,7 @@ async function getPlaylist(uri, filePath = null) {
 
   const url = spotifyUri.formatOpenURL(parsedUri);
 
-  return getData(url, filePath);
+  return getData(url, options);
 }
 
 async function getPlaylistGeneralInfo(page) {
@@ -88,9 +95,9 @@ function returnPlaylist(playlist, filePath = null) {
   }
 }
 
-async function getData(url, filePath) {
+async function getData(url, options) {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: options.headless === false ? false : true,
   });
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'networkidle0' });
@@ -116,13 +123,16 @@ async function getData(url, filePath) {
       processedIndex = newTracks[newTracks.length - 1].index;
       extractedTracks.push(...newTracks);
     }
+    if (options.displayProcess) {
+      process.stdout.write('Process: ' + processedIndex, '\n');
+    }
   }
 
   await browser.close();
 
   playlist.tracks = extractedTracks;
 
-  return returnPlaylist(playlist, filePath);
+  return returnPlaylist(playlist, options.filePath);
 }
 
 module.exports = getPlaylist;
