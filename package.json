@@ -23,6 +23,6 @@
     "prettier": "2.2.1"
   },
   "publishConfig": {
-    "tag": "v1-latest"
+    "tag": "latest"
   }
 }
