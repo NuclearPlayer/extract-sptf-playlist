@@ -68,10 +68,13 @@ async function getTracksFromDOM(page, processedIndex) {
         const titleAndArtist = nodeDetails
           .querySelector('div[aria-colindex="2"]')
           .innerText.split('\n');
+        const artistArray = titleAndArtist[titleAndArtist.length - 1].split(', ');
+
         track.title = titleAndArtist[0];
-        track.artist = titleAndArtist[titleAndArtist.length - 1];
         track.album = nodeDetails.querySelector('div[aria-colindex="3"]').innerText;
         track.duration = nodeDetails.innerText.split('\n').pop();
+        track.artist = artistArray[0];
+        track.otherArtists = artistArray.slice(1);
 
         tracks.push(track);
       }
