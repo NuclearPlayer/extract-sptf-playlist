@@ -8,6 +8,7 @@ async function getPlaylist(
     filePath: null,
     displayProcess: false,
     headless: true,
+    trackFormatterFn: null,
   }
 ) {
   const playlistID = youtubeUrl.getPlaylistId(uri);
@@ -104,6 +105,13 @@ async function getData(url, options) {
   playlist.tracks = await getTracksFromDOM(page);
 
   await browser.close();
+
+  if (typeof options.trackFormatterFn === 'function') {
+    const length = playlist.tracks.length;
+    for (let i = 0; i < length; i += 1) {
+      playlist.tracks[i] = options.trackFormatterFn(playlist.tracks[i]);
+    }
+  }
 
   return returnPlaylist(playlist, options.filePath);
 }

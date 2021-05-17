@@ -1,4 +1,6 @@
 const getSpotifyPlaylist = require('./spotify');
 const getYoutubePlaylist = require('./youtube');
 
-module.exports = { getSpotifyPlaylist, getYoutubePlaylist };
+const defaultYoutubeTrackFormatter = require('./helpers/defaultYoutubeTrackFormatter');
+
+module.exports = { getSpotifyPlaylist, getYoutubePlaylist, defaultYoutubeTrackFormatter };

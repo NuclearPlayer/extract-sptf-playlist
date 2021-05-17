@@ -17,8 +17,23 @@ const url =
 const playlist = await getSpotifyPlaylist(url);
 
 ```
-
-To save playlist to file, pass the `filePath` param.
+### Options
+- `filePath`: to save playlist to file 
 ```node
 getSpotifyPlaylist(url, { filePath: 'data.json', displayProcess: true, headless: true });
+```
+
+- `trackFormatterFn`: to format track in custom shape, formatter receive track object and return formatted object. `defaultYoutubeTrackFormatter` removes the following words from the track title: official, lyric, video and parenthesis '()'.
+
+```node
+const { getYoutubePlaylist, defaultYoutubeTrackFormatter } = require('extract-sptf-playlist');
+
+getSpotifyPlaylist(url, { trackFormatterFn: defaultYoutubeTrackFormatter });
+
+const customFormatter = (track) => {
+  track.title = track.title.toLowerCase();
+  return track;
+};
+
+getSpotifyPlaylist(url, { trackFormatterFn: customFormatter });
 ```

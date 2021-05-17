@@ -1,6 +1,6 @@
-const { getSpotifyPlaylist, getYoutubePlaylist } = require('./index');
+const { getSpotifyPlaylist, getYoutubePlaylist, defaultYoutubeTrackFormatter } = require('./index');
 
-const useSpotify = true;
+const useSpotify = false;
 if (useSpotify) {
   // 400 songs
   // const url = 'https://open.spotify.com/playlist/5VJcwlSzgFtpClXb8xtXs6?si=ij_bQj2zR0GxCufs6lv_Gw';
@@ -12,7 +12,12 @@ if (useSpotify) {
   getSpotifyPlaylist(url, { filePath: 'data.json' });
 } else {
   // 200 songs
-  const url = 'https://www.youtube.com/playlist?list=PLuUrokoVSxlcgocBXbDF76yWd3YKWpOH9';
+  const url = 'https://www.youtube.com/playlist?list=PLmU8B4gZ41ifO00RpWcvv0vx_UEAyfx8U';
 
-  getYoutubePlaylist(url, { filePath: 'data.json', displayProcess: true, headless: true });
+  getYoutubePlaylist(url, {
+    filePath: 'data.json',
+    displayProcess: true,
+    headless: true,
+    trackFormatterFn: defaultYoutubeTrackFormatter,
+  });
 }
