@@ -8,6 +8,7 @@ async function getPlaylist(
     filePath: null,
     displayProcess: false,
     headless: true,
+    trackFormatterFn: null,
   }
 ) {
   let parsedUri;
@@ -93,9 +94,9 @@ function returnPlaylist(playlist, filePath = null) {
         Promise.reject(err);
       }
     });
-  } else {
-    return playlist;
   }
+
+  return playlist;
 }
 
 async function getData(url, options) {
@@ -132,6 +133,13 @@ async function getData(url, options) {
   }
 
   await browser.close();
+
+  if (typeof options.trackFormatterFn === 'function') {
+    const length = extractedTracks.length;
+    for (let i = 0; i < length; i += 1) {
+      extractedTracks[i] = options.trackFormatterFn(extractedTracks[i]);
+    }
+  }
 
   playlist.tracks = extractedTracks;
 

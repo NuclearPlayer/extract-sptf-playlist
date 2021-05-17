@@ -75,9 +75,9 @@ function returnPlaylist(playlist, filePath = null) {
         Promise.reject(err);
       }
     });
-  } else {
-    return playlist;
   }
+
+  return playlist;
 }
 
 async function getData(url, options) {
@@ -102,16 +102,18 @@ async function getData(url, options) {
       process.stdout.write('Process: ' + loadedCount + '\n');
     }
   }
-  playlist.tracks = await getTracksFromDOM(page);
+  const extractedTracks = await getTracksFromDOM(page);
 
   await browser.close();
 
   if (typeof options.trackFormatterFn === 'function') {
-    const length = playlist.tracks.length;
+    const length = extractedTracks.length;
     for (let i = 0; i < length; i += 1) {
-      playlist.tracks[i] = options.trackFormatterFn(playlist.tracks[i]);
+      extractedTracks[i] = options.trackFormatterFn(extractedTracks[i]);
     }
   }
+
+  playlist.tracks = extractedTracks;
 
   return returnPlaylist(playlist, options.filePath);
 }
