@@ -128,7 +128,7 @@ async function getData(url, options) {
       extractedTracks.push(...newTracks);
     }
     if (options.displayProcess) {
-      process.stdout.write('Process: ' + processedIndex, '\n');
+      process.stdout.write('Process: ' + processedIndex + '\n');
     }
   }
 

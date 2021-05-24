@@ -1,6 +1,6 @@
 {
   "name": "extract-sptf-playlist",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Get spotify and youtube playlist using puppeteer",
   "main": "index.js",
   "engines": {
