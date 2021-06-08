@@ -17,6 +17,25 @@ const url =
 const playlist = await getSpotifyPlaylist(url);
 
 ```
+### Result format
+```json
+{
+  "name": "ultimate vibezzzzz",
+  "numberOfTrack": 105,
+  "tracks": [
+    {
+      "index": 2,
+      "thumbnail": "https://i.scdn.co/image/ab67616d000048510d5a84e4e47399d2726c330c",
+      "title": "20 Min",
+      "album": "Luv Is Rage 2 (Deluxe)",
+      "duration": "3:40",
+      "artist": "Lil Uzi Vert",
+      "otherArtists": []
+    },
+  ]
+}
+
+```
 ### Options
 - `filePath`: to save playlist to file 
 ```node
