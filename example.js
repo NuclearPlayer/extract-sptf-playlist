@@ -1,6 +1,6 @@
 const { getSpotifyPlaylist, getYoutubePlaylist, defaultYoutubeTrackFormatter } = require('./index');
 
-const useSpotify = true;
+const useSpotify = false;
 if (useSpotify) {
   // 400 songs
   // const url = 'https://open.spotify.com/playlist/5VJcwlSzgFtpClXb8xtXs6?si=ij_bQj2zR0GxCufs6lv_Gw';

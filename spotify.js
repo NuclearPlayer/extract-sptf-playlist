@@ -1,6 +1,7 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const spotifyUri = require('spotify-uri');
+const sourceName = require('./helpers/sourceName');
 
 async function getPlaylist(
   uri,
@@ -37,6 +38,7 @@ async function getPlaylistGeneralInfo(page) {
   return {
     name: playlistName,
     numberOfTrack,
+    source: sourceName.spotify,
   };
 }
 

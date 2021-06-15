@@ -199,7 +199,7 @@ describe('getYoutubePlaylist', () => {
     expect(playlist.name).toEqual(expect.any(String));
     expect(playlist.numberOfTrack).toEqual(expect.any(Number));
     expect(playlist.tracks.length).toBeGreaterThan(0);
-
+    expect(playlist.source).toEqual('youtube');
     expect(playlist.tracks[0]).toEqual(
       expect.objectContaining({
         thumbnail: expect.any(String),

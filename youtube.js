@@ -1,6 +1,7 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const youtubeUrl = require('./helpers/youtube-url');
+const sourceName = require('./helpers/sourceName');
 
 async function getPlaylist(
   uri,
@@ -31,6 +32,7 @@ async function getPlaylistGeneralInfo(page) {
     };
   });
 
+  info.source = sourceName.youtube;
   return info;
 }
 

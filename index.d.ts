@@ -15,6 +15,7 @@ export class Track {
 export class Playlist {
   name: string;
   numberOfTrack: number;
+  source: string;
   tracks: Track[];
 }
 
