@@ -117,13 +117,6 @@ async function getData(url, options) {
   const x = scrollBar.x + scrollBar.width / 2;
   let y = scrollBar.y;
   while (processedIndex < playlist.numberOfTrack) {
-    await page.mouse.move(x, y);
-    await page.mouse.down();
-    y += scrollHeight;
-    await page.mouse.move(x, y);
-    await page.mouse.up();
-    await page.waitForTimeout(1500);
-
     const newTracks = await getTracksFromDOM(page, processedIndex);
     if (newTracks.length) {
       processedIndex = newTracks[newTracks.length - 1].index;
@@ -132,6 +125,13 @@ async function getData(url, options) {
     if (options.displayProcess) {
       process.stdout.write('Process: ' + processedIndex + '\n');
     }
+
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    y += scrollHeight;
+    await page.mouse.move(x, y);
+    await page.mouse.up();
+    await page.waitForTimeout(1500);
   }
 
   await browser.close();
