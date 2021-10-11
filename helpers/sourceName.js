@@ -1,6 +1,6 @@
 const sourceName = {
-  youtube: 'youtube',
-  spotify: 'spotify',
+  youtube: 'Youtube',
+  spotify: 'Spotify',
 };
 
 module.exports = sourceName;

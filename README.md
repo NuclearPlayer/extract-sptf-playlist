@@ -22,7 +22,7 @@ const playlist = await getSpotifyPlaylist(url);
 {
   "name": "ultimate vibezzzzz",
   "numberOfTrack": 105,
-  "source": "youtube",
+  "source": "Youtube",
   "tracks": [
     {
       "index": 2,
