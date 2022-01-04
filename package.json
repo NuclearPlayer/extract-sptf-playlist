@@ -4,7 +4,7 @@
   "description": "Get spotify and youtube playlist using puppeteer",
   "main": "index.js",
   "engines": {
-    "node": ">= 8.3.0"
+    "node": ">= 10.0.0"
   },
   "scripts": {
     "test": "jest",
