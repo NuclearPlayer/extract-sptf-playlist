@@ -14,7 +14,7 @@ if (useSpotify) {
     displayProcess: true,
   });
 } else {
-  // 200 songs
+  // 17 songs
   const url = 'https://www.youtube.com/playlist?list=PLmU8B4gZ41ifO00RpWcvv0vx_UEAyfx8U';
 
   getYoutubePlaylist(url, {
