@@ -57,29 +57,31 @@ async function getTracksFromDOM(page, processedIndex) {
     const tracks = [];
 
     for (let i = 0; i < nodeTracks.length; i += 1) {
-      const index = parseInt(nodeTracks[i].getAttribute('aria-rowindex'));
+      if (nodeTracks[i]) {
+        const index = parseInt(nodeTracks[i].getAttribute('aria-rowindex'));
 
-      if (index > processedIndex) {
-        const nodeDetails = nodeTracks[i].childNodes[0];
-        const track = {};
-        track.index = index;
-        track.thumbnail = nodeDetails
-          .querySelector('div[aria-colindex="2"]')
-          .querySelector('img')
-          .getAttribute('src');
+        if (index > processedIndex) {
+          const nodeDetails = nodeTracks[i].childNodes[0];
+          const track = {};
+          track.index = index;
+          track.thumbnail = nodeDetails
+            .querySelector('div[aria-colindex="2"]')
+            .querySelector('img')
+            ?.getAttribute('src');
 
-        const titleAndArtist = nodeDetails
-          .querySelector('div[aria-colindex="2"]')
-          .innerText.split('\n');
-        const artistArray = titleAndArtist[titleAndArtist.length - 1].split(', ');
+          const titleAndArtist = nodeDetails
+            .querySelector('div[aria-colindex="2"]')
+            .innerText.split('\n');
+          const artistArray = titleAndArtist[titleAndArtist.length - 1].split(', ');
 
-        track.title = titleAndArtist[0];
-        track.album = nodeDetails.querySelector('div[aria-colindex="3"]').innerText;
-        track.duration = nodeDetails.innerText.split('\n').pop();
-        track.artist = artistArray[0];
-        track.otherArtists = artistArray.slice(1);
+          track.title = titleAndArtist[0];
+          track.album = nodeDetails.querySelector('div[aria-colindex="3"]').innerText;
+          track.duration = nodeDetails.innerText.split('\n').pop();
+          track.artist = artistArray[0];
+          track.otherArtists = artistArray.slice(1);
 
-        tracks.push(track);
+          tracks.push(track);
+        }
       }
     }
 
@@ -109,6 +111,7 @@ async function getData(url, options) {
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   const playlist = await getPlaylistGeneralInfo(page);
+
   const scrollBar = await getScrollBar(page);
   const scrollHeight = scrollBar.height;
 
