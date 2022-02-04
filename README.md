@@ -2,10 +2,6 @@
 
 ## Install
 ```
-npm install --save haidang666/extract-sptf-playlist
-```
-or 
-```
 npm install --save extract-sptf-playlist
 ```
 ## Example 
