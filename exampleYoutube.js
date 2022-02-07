@@ -4,7 +4,7 @@ const { getYoutubePlaylist, defaultYoutubeTrackFormatter } = require('./index');
 const url = 'https://www.youtube.com/playlist?list=PLmU8B4gZ41ifO00RpWcvv0vx_UEAyfx8U';
 
 getYoutubePlaylist(url, {
-  filePath: 'data.json',
+  filePath: 'youtube.json',
   displayProcess: true,
   headless: true,
   trackFormatterFn: defaultYoutubeTrackFormatter,

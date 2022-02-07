@@ -57,30 +57,33 @@ async function getTracksFromDOM(page, processedIndex) {
     const tracks = [];
 
     for (let i = 0; i < nodeTracks.length; i += 1) {
-      if (nodeTracks[i]) {
+      if (nodeTracks?.[i]) {
         const index = parseInt(nodeTracks[i].getAttribute('aria-rowindex'));
 
         if (index > processedIndex) {
           const nodeDetails = nodeTracks[i].childNodes[0];
-          const track = {};
-          track.index = index;
-          track.thumbnail = nodeDetails
-            .querySelector('div[aria-colindex="2"]')
-            .querySelector('img')
-            ?.getAttribute('src');
 
-          const titleAndArtist = nodeDetails
-            .querySelector('div[aria-colindex="2"]')
-            .innerText.split('\n');
-          const artistArray = titleAndArtist[titleAndArtist.length - 1].split(', ');
+          if (nodeDetails) {
+            const track = {};
+            track.index = index;
+            track.thumbnail = nodeDetails
+              .querySelector('div[aria-colindex="2"]')
+              ?.querySelector('img')
+              ?.getAttribute('src');
 
-          track.title = titleAndArtist[0];
-          track.album = nodeDetails.querySelector('div[aria-colindex="3"]').innerText;
-          track.duration = nodeDetails.innerText.split('\n').pop();
-          track.artist = artistArray[0];
-          track.otherArtists = artistArray.slice(1);
+            const titleAndArtist = nodeDetails
+              .querySelector('div[aria-colindex="2"]')
+              ?.innerText?.split('\n');
+            const artistArray = titleAndArtist?.[titleAndArtist.length - 1]?.split(', ');
 
-          tracks.push(track);
+            track.title = titleAndArtist?.[0] || 'Untitle';
+            track.album = nodeDetails.querySelector('div[aria-colindex="3"]')?.innerText || '';
+            track.duration = nodeDetails.innerText?.split('\n')?.pop() || '0:00';
+            track.artist = artistArray[0] || 'Unknown';
+            track.otherArtists = artistArray?.slice(1) || [];
+
+            tracks.push(track);
+          }
         }
       }
     }

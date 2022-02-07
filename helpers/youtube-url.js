@@ -1,11 +1,11 @@
-let urlRegex = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:m\.)?(?:youtu(?:be)?\.com\/(?:v\/|embed\/|watch(?:\/|\?v=))|youtu\.be\/)((?:\w|-){11})(?:\S+)?$/;
+const YoutubeIdRegex = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:m\.)?(?:youtu(?:be)?\.com\/(?:v\/|embed\/|watch(?:\/|\?v=))|youtu\.be\/)((?:\w|-){11})(?:\S+)?$/;
 
 module.exports = {
   valid(url) {
-    return !!String(url).match(urlRegex);
+    return !!String(url).match(YoutubeIdRegex);
   },
   getVideoId(url) {
-    let match = urlRegex.exec(url);
+    let match = YoutubeIdRegex.exec(url);
     return match ? match[1] : false;
   },
   getPlaylistId(url) {
@@ -15,5 +15,5 @@ module.exports = {
   parsePlaylistUrl(playlistId) {
     return `https://www.youtube.com/playlist?list=${playlistId}`;
   },
-  regex: urlRegex,
+  regex: YoutubeIdRegex,
 };

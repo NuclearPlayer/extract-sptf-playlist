@@ -7,6 +7,6 @@ const { getSpotifyPlaylist } = require('./index');
 const url = 'https://open.spotify.com/playlist/2YCIIABnzPtI9cuXn0y9bb';
 
 getSpotifyPlaylist(url, {
-  filePath: 'data.json',
+  filePath: 'spotify.json',
   displayProcess: true,
 });

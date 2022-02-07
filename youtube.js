@@ -22,7 +22,7 @@ async function getPlaylist(
 
 async function getPlaylistGeneralInfo(page) {
   const info = await page.evaluate(() => {
-    const name = document.querySelector('h1[id="title"]').innerText;
+    const name = document.querySelector('h1[id="title"]')?.innerText || 'Untitle';
     const numberOfTrack = parseInt(
       document.querySelector('div[id="stats"]').childNodes[0].childNodes[0].innerText
     );
@@ -38,10 +38,11 @@ async function getPlaylistGeneralInfo(page) {
 
 async function getTracksFromDOM(page) {
   const newTracks = await page.evaluate(() => {
-    let urlRegex = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:m\.)?(?:youtu(?:be)?\.com\/(?:v\/|embed\/|watch(?:\/|\?v=))|youtu\.be\/)((?:\w|-){11})(?:\S+)?$/;
+    const YoutubeIdRegex = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:m\.)?(?:youtu(?:be)?\.com\/(?:v\/|embed\/|watch(?:\/|\?v=))|youtu\.be\/)((?:\w|-){11})(?:\S+)?$/;
 
+    // dont use function from helpers since can not import to browser
     function getVideoId(url) {
-      let match = urlRegex.exec(url);
+      let match = YoutubeIdRegex.exec(url);
       return match ? match[1] : false;
     }
 
@@ -50,18 +51,20 @@ async function getTracksFromDOM(page) {
 
     for (let i = 0; i < nodeTracks.length; i += 1) {
       const nodeDetail = nodeTracks[i];
-      const track = {};
-      track.index = i;
-      track.thumbnail = nodeDetail.querySelector('img').src;
+      if (nodeDetail) {
+        const track = {};
+        track.index = i;
+        track.thumbnail = nodeDetail.querySelector('img')?.src || '';
 
-      const text = nodeDetail.innerText.split('\n');
-      track.title = text[3];
-      track.artist = text[4];
-      track.album = '';
-      track.duration = text[1];
-      track.id = getVideoId(nodeDetail.querySelector('a[id="thumbnail"]').href);
+        const text = nodeDetail.innerText?.split('\n');
+        track.title = text?.[3] || 'Untitle';
+        track.artist = text?.[4] || 'Unknown';
+        track.album = '';
+        track.duration = text?.[1] || '0:00';
+        track.id = getVideoId(nodeDetail.querySelector('a[id="thumbnail"]').href) || '';
 
-      tracks.push(track);
+        tracks.push(track);
+      }
     }
 
     return tracks;

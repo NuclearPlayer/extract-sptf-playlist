@@ -1,4 +1,5 @@
 const { getSpotifyPlaylist } = require('./index');
+const SourceName = require('./helpers/sourceName');
 
 // 400 songs
 // const url = 'https://open.spotify.com/playlist/5VJcwlSzgFtpClXb8xtXs6?si=ij_bQj2zR0GxCufs6lv_Gw';
@@ -10,12 +11,12 @@ const url =
 jest.setTimeout(3600000);
 
 describe('getSpotifyPlaylist', () => {
-  test('should have data', async (done) => {
+  test('should able to extract playlist', async (done) => {
     const playlist = await getSpotifyPlaylist(url);
     expect(playlist.name).toEqual(expect.any(String));
     expect(playlist.numberOfTrack).toEqual(expect.any(Number));
     expect(playlist.tracks.length).toBeGreaterThan(0);
-    expect(playlist.source).toEqual('spotify');
+    expect(playlist.source).toEqual(SourceName.spotify);
     expect(playlist.tracks[0]).toEqual(
       expect.objectContaining({
         thumbnail: expect.any(String),
@@ -30,7 +31,7 @@ describe('getSpotifyPlaylist', () => {
     done();
   });
 
-  test('should error with invalid url', async () => {
+  test('should fail with invalid url', async () => {
     expect.assertions(1);
     try {
       await getSpotifyPlaylist('hello from Mikkyway');

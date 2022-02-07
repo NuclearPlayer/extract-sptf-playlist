@@ -1,4 +1,5 @@
 const { getYoutubePlaylist, defaultYoutubeTrackFormatter } = require('./index');
+const SourceName = require('./helpers/sourceName');
 
 // 43 songs
 const url = 'https://www.youtube.com/watch?v=TKYsuU86-DQ&list=PL0eyrZgxdwhwNC5ppZo_dYGVjerQY3xYU';
@@ -194,12 +195,12 @@ const playlist = {
 jest.setTimeout(3600000);
 
 describe('getYoutubePlaylist', () => {
-  test('should have data', async (done) => {
+  test('should able to extract playlist', async (done) => {
     const playlist = await getYoutubePlaylist(url);
     expect(playlist.name).toEqual(expect.any(String));
     expect(playlist.numberOfTrack).toEqual(expect.any(Number));
     expect(playlist.tracks.length).toBeGreaterThan(0);
-    expect(playlist.source).toEqual('youtube');
+    expect(playlist.source).toEqual(SourceName.youtube);
     expect(playlist.tracks[0]).toEqual(
       expect.objectContaining({
         thumbnail: expect.any(String),
@@ -215,7 +216,7 @@ describe('getYoutubePlaylist', () => {
     done();
   });
 
-  test('should error with invalid url', async () => {
+  test('should fail with invalid url', async () => {
     expect.assertions(1);
     try {
       await getYoutubePlaylist('hello from Mikkyway');
@@ -226,7 +227,7 @@ describe('getYoutubePlaylist', () => {
 });
 
 describe('defaultYoutubeTrackFormatter', () => {
-  test('should have data', async (done) => {
+  test('should able to format track', async (done) => {
     for (let i = 0; i < playlist.tracks.length; i += 1) {
       playlist.tracks[i] = defaultYoutubeTrackFormatter(playlist.tracks[i]);
     }
