@@ -239,3 +239,48 @@ describe('defaultYoutubeTrackFormatter', () => {
     done();
   });
 });
+
+describe('get youtube playlist with ytpl library', () => {
+  test('should able to get playlist with less than 100 tracks', async (done) => {
+    const playlist = await getYoutubePlaylist(url);
+    expect(playlist.name).toEqual(expect.any(String));
+    expect(playlist.numberOfTrack).toEqual(expect.any(Number));
+    expect(playlist.tracks.length).toBeGreaterThan(0);
+    expect(playlist.source).toEqual(SourceName.youtube);
+    expect(playlist.tracks[0]).toEqual(
+      expect.objectContaining({
+        thumbnail: expect.any(String),
+        artist: expect.any(String),
+        title: expect.any(String),
+        album: expect.any(String),
+        duration: expect.any(String),
+        index: expect.any(Number),
+        id: expect.any(String),
+      })
+    );
+
+    done();
+  });
+
+  test.skip('should able to get playlist with more than 100 tracks', async (done) => {
+    const url500 = 'https://youtube.com/playlist?list=PLY9BjbV3vesCwpYd1ZaL6RbwwMYmxz9FB ';
+    const playlist = await getYoutubePlaylist(url500);
+    expect(playlist.name).toEqual(expect.any(String));
+    expect(playlist.numberOfTrack).toBeGreaterThan(100);
+    expect(playlist.tracks.length).toBeGreaterThan(100);
+    expect(playlist.source).toEqual(SourceName.youtube);
+    expect(playlist.tracks[0]).toEqual(
+      expect.objectContaining({
+        thumbnail: expect.any(String),
+        artist: expect.any(String),
+        title: expect.any(String),
+        album: expect.any(String),
+        duration: expect.any(String),
+        index: expect.any(Number),
+        id: expect.any(String),
+      })
+    );
+
+    done();
+  });
+});

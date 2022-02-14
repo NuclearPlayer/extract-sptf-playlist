@@ -7,9 +7,9 @@ const url = 'https://www.youtube.com/playlist?list=PLmU8B4gZ41ifO00RpWcvv0vx_UEA
 // 500 songs, unlisted
 const url500 = 'https://youtube.com/playlist?list=PLY9BjbV3vesCwpYd1ZaL6RbwwMYmxz9FB ';
 
-getYoutubePlaylist(url500, {
-  filePath: 'youtube.json',
+getYoutubePlaylist(url, {
+  usePuppeteer: false,
+  filePath: 'youtubeWithYtpl.json',
   displayProcess: true,
-  headless: true,
   trackFormatterFn: defaultYoutubeTrackFormatter,
 });

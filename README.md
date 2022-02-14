@@ -13,6 +13,8 @@ const url =
 const playlist = await getSpotifyPlaylist(url);
 
 ```
+For Youtube playlist, set option param `usePuppeteer` to false to use [`ytpl` library](https://github.com/TimeForANinja/node-ytpl) instead of puppeteer, check file `exampleYoutubeWithYtpl.js` for example.  
+
 ### Result format
 ```json
 {

@@ -1,6 +1,6 @@
 {
   "name": "extract-sptf-playlist",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Get spotify and youtube playlist using puppeteer",
   "main": "index.js",
   "engines": {
@@ -15,7 +15,8 @@
   "license": "GNUv3",
   "dependencies": {
     "puppeteer": "^8.0.0",
-    "spotify-uri": "^2.2.0"
+    "spotify-uri": "^2.2.0",
+    "ytpl": "^2.2.3"
   },
   "devDependencies": {
     "eslint": "^7.23.0",

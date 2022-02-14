@@ -1,5 +1,7 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
+const ytpl = require('ytpl');
+
 const youtubeUrl = require('./helpers/youtube-url');
 const sourceName = require('./helpers/sourceName');
 
@@ -8,12 +10,16 @@ async function getPlaylist(
   options = {
     filePath: null,
     displayProcess: false,
+    usePuppeteer: true,
     headless: true,
     trackFormatterFn: null,
   }
 ) {
   const playlistID = youtubeUrl.getPlaylistId(uri);
   if (playlistID) {
+    if (options.usePuppeteer === false) {
+      return getPlaylistByYtpl(playlistID, options);
+    }
     return getData(youtubeUrl.parsePlaylistUrl(playlistID), options);
   }
 
@@ -121,6 +127,71 @@ async function getData(url, options) {
   playlist.tracks = extractedTracks;
 
   return returnPlaylist(playlist, options.filePath);
+}
+
+/**
+ * Format track from ytpl
+ * @param {number} i track index
+ * @param {ytpl.Item} _track ytpl item
+ * @param {function} trackFormatterFn formater function from options
+ */
+function formatTrack(i, _track, trackFormatterFn = undefined) {
+  const track = {};
+  track.index = i;
+  track.thumbnail = _track.bestThumbnail.url;
+  track.title = _track.title;
+  track.artist = _track.author.name;
+  track.album = '';
+  track.duration = _track.duration;
+  track.id = _track.id;
+
+  if (typeof trackFormatterFn === 'function') {
+    return trackFormatterFn(track);
+  }
+
+  return track;
+}
+
+async function getPlaylistByYtpl(playlistID, options) {
+  try {
+    if (ytpl.validateID(playlistID)) {
+      const playlistResult = await ytpl(playlistID, { pages: 1 });
+      const totalTrackCount = playlistResult.estimatedItemCount;
+      const allTracks = playlistResult.items;
+      let trackCount = allTracks.length;
+      let haveMoreTrack = playlistResult.continuation;
+
+      if (options.displayProcess) {
+        process.stdout.write('Process: ' + allTracks.length + '\n');
+      }
+      while (trackCount < totalTrackCount && haveMoreTrack) {
+        const moreTracks = await ytpl.continueReq(haveMoreTrack);
+        trackCount += moreTracks.items.length;
+        allTracks.push(...moreTracks.items);
+        haveMoreTrack = moreTracks.continuation;
+        if (options.displayProcess) {
+          process.stdout.write('Process: ' + allTracks.length + '\n');
+        }
+      }
+
+      const length = allTracks.length;
+      for (let i = 0; i < length; i += 1) {
+        allTracks[i] = formatTrack(i, allTracks[i], options.trackFormatterFn);
+      }
+
+      const playlist = {
+        source: sourceName.youtube,
+        name: playlistResult.title,
+        numberOfTrack: allTracks.length,
+        tracks: allTracks,
+      };
+
+      return returnPlaylist(playlist, options.filePath);
+    }
+    return Promise.reject('Invalid playlist ID');
+  } catch (e) {
+    return Promise.reject(`Error in getPlaylistByYtpl, ${e.message}`);
+  }
 }
 
 module.exports = getPlaylist;

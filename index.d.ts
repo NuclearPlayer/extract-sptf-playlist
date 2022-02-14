@@ -20,6 +20,7 @@ export class Playlist {
 }
 
 export class Options {
+  usePuppeteer: boolean;
   headless: boolean;
   displayProcess: boolean;
   filePath: string;
