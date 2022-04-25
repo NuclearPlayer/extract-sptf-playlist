@@ -28,7 +28,7 @@ async function getPlaylist(
 
 async function getPlaylistGeneralInfo(page) {
   const info = await page.evaluate(() => {
-    const name = document.querySelector('h1[id="title"]')?.innerText || 'Untitle';
+    const name = document.querySelector('h1[id="title"]').innerText || 'Untitle';
     const numberOfTrack = parseInt(
       document.querySelector('div[id="stats"]').childNodes[0].childNodes[0].innerText
     );
@@ -60,13 +60,13 @@ async function getTracksFromDOM(page) {
       if (nodeDetail) {
         const track = {};
         track.index = i;
-        track.thumbnail = nodeDetail.querySelector('img')?.src || '';
+        track.thumbnail = nodeDetail.querySelector('img').src || '';
 
-        const text = nodeDetail.innerText?.split('\n');
-        track.title = text?.[3] || 'Untitle';
-        track.artist = text?.[4] || 'Unknown';
+        const text = nodeDetail.innerText.split('\n');
+        track.title = text[3] || 'Untitle';
+        track.artist = text[4] || 'Unknown';
         track.album = '';
-        track.duration = text?.[1] || '0:00';
+        track.duration = text[1] || '0:00';
         track.id = getVideoId(nodeDetail.querySelector('a[id="thumbnail"]').href) || '';
 
         tracks.push(track);

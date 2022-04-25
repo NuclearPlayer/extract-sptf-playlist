@@ -57,7 +57,7 @@ async function getTracksFromDOM(page, processedIndex) {
     const tracks = [];
 
     for (let i = 0; i < nodeTracks.length; i += 1) {
-      if (nodeTracks?.[i]) {
+      if (nodeTracks[i]) {
         const index = parseInt(nodeTracks[i].getAttribute('aria-rowindex'));
 
         if (index > processedIndex) {
@@ -67,20 +67,20 @@ async function getTracksFromDOM(page, processedIndex) {
             const track = {};
             track.index = index;
             track.thumbnail = nodeDetails
-              .querySelector('div[aria-colindex="2"]')
-              ?.querySelector('img')
-              ?.getAttribute('src');
+              querySelector('div[aria-colindex="2"]')
+              querySelector('img')
+              getAttribute('src');
 
             const titleAndArtist = nodeDetails
-              .querySelector('div[aria-colindex="2"]')
-              ?.innerText?.split('\n');
-            const artistArray = titleAndArtist?.[titleAndArtist.length - 1]?.split(', ');
+              querySelector('div[aria-colindex="2"]')
+              innerText.split('\n');
+            const artistArray = titleAndArtist[titleAndArtist.length - 1].split(', ');
 
-            track.title = titleAndArtist?.[0] || 'Untitle';
-            track.album = nodeDetails.querySelector('div[aria-colindex="3"]')?.innerText || '';
-            track.duration = nodeDetails.innerText?.split('\n')?.pop() || '0:00';
+            track.title = titleAndArtist[0] || 'Untitle';
+            track.album = nodeDetails.querySelector('div[aria-colindex="3"]').innerText || '';
+            track.duration = nodeDetails.innerTextsplit('\n').pop() || '0:00';
             track.artist = artistArray[0] || 'Unknown';
-            track.otherArtists = artistArray?.slice(1) || [];
+            track.otherArtists = artistArrayslice(1) || [];
 
             tracks.push(track);
           }
@@ -108,7 +108,7 @@ function returnPlaylist(playlist, filePath = null) {
 
 async function getData(url, options) {
   const browser = await puppeteer.launch({
-    headless: options.headless === false ? false : true,
+      headless: options.headless === false 
   });
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'networkidle0' });
